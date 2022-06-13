@@ -1,0 +1,1 @@
+const BaseUrl = "https://wqkbnvck.lucusvirtual.es/corpocesar/public/";

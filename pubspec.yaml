@@ -34,6 +34,7 @@ dependencies:
   charts_flutter: ^0.12.0
   pie_chart: ^5.3.1
   flutter_echarts: ^2.3.0
+  carousel_slider: ^4.1.1
 
 
   # The following adds the Cupertino Icons font to your application.

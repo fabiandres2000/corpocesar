@@ -37,12 +37,24 @@ class _SimpleBarChartPageState extends State<SimpleBarChartPage> {
             barRendererDecorator: charts.BarLabelDecorator<String>(
               insideLabelStyleSpec: charts.TextStyleSpec(
                 fontSize: 6,
-                color: charts.MaterialPalette.black
+                color: charts.MaterialPalette.white
               ),
               outsideLabelStyleSpec: charts.TextStyleSpec(
                 fontSize: 6,
                 color: charts.MaterialPalette.black
               ),
+            ),
+            primaryMeasureAxis:  charts.NumericAxisSpec(
+              renderSpec:  charts.SmallTickRendererSpec(
+                labelStyle:  charts.TextStyleSpec(
+                  fontSize: 8,
+                  color: charts.MaterialPalette.black,
+                ),
+                lineStyle:  charts.LineStyleSpec(
+                  color: charts.MaterialPalette.black
+                ),
+              ),
+              tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 10)
             ),
             domainAxis:  charts.OrdinalAxisSpec(
               renderSpec:  charts.SmallTickRendererSpec(
@@ -68,20 +80,25 @@ class _SimpleBarChartPageState extends State<SimpleBarChartPage> {
     if(widget.tipo == "general1"){
       for (var i = 0; i < 5; i++) {
         var item = porMunicipio[i];
-        var dataitem = DataSample(item["municipio_nombre"], item["total"]/1000000);
+        var dataitem = DataSample(i, item["municipio_nombre"], item["total"]/1000000);
         data.add(dataitem);
       }
     }else{
       if(widget.tipo == "general1.1"){
+        var index = 0;
         for (var i = porMunicipio.length-5; i < porMunicipio.length; i++) {
           var item = porMunicipio[i];
-          var dataitem = DataSample(item["municipio_nombre"], item["total"]/1000000);
+          var dataitem = DataSample(index ,item["municipio_nombre"], item["total"]/1000000);
           data.add(dataitem);
+          index++;
         }
       }else{
-        for (var item in porVigencia) {
-          var dataitem = DataSample(item["periodo"], item["total"]/1000000);
+        var index = 0;
+        for (var i = porVigencia.length-5; i < porVigencia.length; i++) {
+          var item = porVigencia[i];
+          var dataitem = DataSample(index, item["periodo"], item["total"]/1000000);
           data.add(dataitem);
+          index++;
         }
       } 
     }
@@ -91,7 +108,34 @@ class _SimpleBarChartPageState extends State<SimpleBarChartPage> {
       seriesList = [
         charts.Series<DataSample, String>(
           id: 'Sales',
-          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          colorFn: (DataSample data, _) {
+          switch (data.index) {
+            case 0:
+            {
+              return charts.ColorUtil.fromDartColor(Color(0xff109618));
+            }
+            case 1:
+            {
+              return charts.ColorUtil.fromDartColor(Color(0xff94DD8B));
+            }
+            case 2:
+            {
+              return charts.ColorUtil.fromDartColor(Color(0xff0BB68C));
+            }
+            case 3:
+            {
+              return charts.ColorUtil.fromDartColor(Color(0xff0B81E3));
+            }
+            case 4:
+            {
+              return charts.ColorUtil.fromDartColor(Color(0xff0C4E8B));
+            }
+            default:
+            {
+              return charts.ColorUtil.fromDartColor(Color(0xff990099));
+            }
+          }
+        },
           domainFn: (DataSample data, _) => data.item,
           measureFn: (DataSample data, _) => data.total,
           data: data,
@@ -120,8 +164,9 @@ class _SimpleBarChartPageState extends State<SimpleBarChartPage> {
 }
 
 class DataSample {
+  final int index;
   final String item;
   final double total;
 
-  DataSample(this.item, this.total);
+  DataSample(this.index, this.item, this.total);
 }

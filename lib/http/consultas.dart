@@ -49,5 +49,35 @@ class ServicioHttp {
     return respuesta;
   }
 
+  Future<dynamic> infoMunicipio(String idmun) async {
+    dynamic respuesta;
+    final link = Uri.parse(BaseUrl + "declaraciones-municipio-vigencia?mun="+"20"+idmun);
+    final response = await http.get(link);
+
+    if (response.statusCode != 200) {
+      respuesta.mensaje = "no existe esa URL";
+      respuesta.success = 0;
+    } else {
+      var json = convert.jsonDecode(response.body);
+      respuesta = json;
+    }
+    return respuesta;
+  }
+
+   Future<dynamic> infoMunicipioPeriodo(String idmun, String periodo) async {
+    dynamic respuesta;
+    final link = Uri.parse(BaseUrl + "declaraciones-municipio-vigencia-periodo?mun=20"+idmun+"&per="+periodo);
+    final response = await http.get(link);
+
+    if (response.statusCode != 200) {
+      respuesta.mensaje = "no existe esa URL";
+      respuesta.success = 0;
+    } else {
+      var json = convert.jsonDecode(response.body);
+      respuesta = json;
+    }
+    return respuesta;
+  }
+
 
 }

@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:corpo/componentes/bouncy.dart';
 import 'package:corpo/consulta-general.dart';
 import 'package:corpo/consulta-por-municipio.dart';
 import 'package:corpo/consulta-por-vigencia.dart';

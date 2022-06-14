@@ -16,17 +16,13 @@ class MunicipioPage extends StatefulWidget {
 class _MunicipioPageState extends State<MunicipioPage> {
   ServicioHttp service = ServicioHttp();
   List municipios = List.empty();
-  List declaraciones = List.empty();
+  List declaracionesPorPeriodo = List.empty();
   List declaracionesPorMes = List.empty();
   List<charts.Series<dynamic, String>> seriesList = List.empty();
   String combosecre = "0";
   String periodoSeleccionado = "";
 
   final oCcy = NumberFormat("#,##0.00", "en_US");
-
-  bool selected1 = true;
-  bool selected2 = false;
-  bool selected3 = false;
 
   bool proceso = true;
   bool proceso2 = true;
@@ -36,7 +32,7 @@ class _MunicipioPageState extends State<MunicipioPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 20),
+        padding: EdgeInsets.only(top: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -77,109 +73,21 @@ class _MunicipioPageState extends State<MunicipioPage> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            combosecre != "0" && !proceso?
-              Row(
-                children: <Widget> [
-                  Expanded(
-                    flex: 3,
-                    child: GestureDetector(
-                      onTap: () {
-                        cambiarSeleccion(1, declaraciones[declaraciones.length-3]["periodo"]);
-                      },
-                      child:  Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: !selected1 ? Colors.white : Color(0xff0B81E3),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(7),
-                        child: Column(
-                          children: [
-                            Text(declaraciones[declaraciones.length-3]["periodo"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: selected1 ? Colors.white: Colors.black)),
-                            SizedBox(height: 15),
-                            Text('\$ ${oCcy.format(declaraciones[declaraciones.length-3]["total"]).replaceAll(".00", "")}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10, color: selected1 ? Colors.white: Colors.black))
-                          ],
-                        )
-                      )
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child:
-                    GestureDetector(
-                      onTap: () {
-                        cambiarSeleccion(2, declaraciones[declaraciones.length-2]["periodo"]);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: !selected2 ? Colors.white : Color(0xff0B81E3),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(7),
-                        child: Column(
-                          children: [
-                            Text(declaraciones[declaraciones.length-2]["periodo"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: selected2 ? Colors.white: Colors.black)),
-                            SizedBox(height: 15),
-                            Text('\$ ${oCcy.format(declaraciones[declaraciones.length-2]["total"]).replaceAll(".00", "")}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10, color: selected2 ? Colors.white: Colors.black))
-                          ],
-                        )
-                      )
-                    )
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child:
-                    GestureDetector(
-                      onTap: () {
-                        cambiarSeleccion(3, declaraciones[declaraciones.length-1]["periodo"]);
-                      },
-                      child:  Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: !selected3 ? Colors.white : Color(0xff0B81E3),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(7),
-                        child: Column(
-                          children: [
-                            Text(declaraciones[declaraciones.length-1]["periodo"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: selected3 ? Colors.white: Colors.black)),
-                            SizedBox(height: 15),
-                            Text('\$ ${oCcy.format(declaraciones[declaraciones.length-1]["total"]).replaceAll(".00", "")}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10, color: selected3 ? Colors.white: Colors.black))
-                          ],
-                        )
-                      )
-                    ),
-                  )
-                ],
-              )
+            SizedBox(height: 40),
+            combosecre != "0" && !proceso? Container(
+              padding: EdgeInsets.only(left: 5, right: 5),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  viewportFraction: 0.40,
+                  height: 90,
+                ),
+                items: itemCarousel(context),
+              ),
+            ) 
             : Center(),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             !proceso2 ? Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -194,49 +102,55 @@ class _MunicipioPageState extends State<MunicipioPage> {
                 ],
               ),
               margin: EdgeInsets.all(15),
-              padding: EdgeInsets.all(7),
-              height: 300,
-              child:Stack(
+              padding: EdgeInsets.all(10),
+              height: 320,
+              child: Column(
                 children: [
-                  Text("                                    Declaración por mes \n                                        (vigencia: $periodoSeleccionado)", style: TextStyle(color: Colors.blueAccent, fontSize: 12, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 40),
-                  charts.BarChart(
-                    seriesList,
-                    animate: true,
-                    barRendererDecorator: charts.BarLabelDecorator<String>(
-                      insideLabelStyleSpec: charts.TextStyleSpec(
-                        fontSize: 6,
-                        color: charts.MaterialPalette.white
-                      ),
-                      outsideLabelStyleSpec: charts.TextStyleSpec(
-                        fontSize: 6,
-                        color: charts.MaterialPalette.black
-                      ),
-                    ),
-                    primaryMeasureAxis:  charts.NumericAxisSpec(
-                      renderSpec:  charts.SmallTickRendererSpec(
-                        labelStyle:  charts.TextStyleSpec(
-                          fontSize: 8,
-                          color: charts.MaterialPalette.black,
-                        ),
-                        lineStyle:  charts.LineStyleSpec(
-                          color: charts.MaterialPalette.black
-                        ),
-                      ),
-                      tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 10)
-                    ),
-                    domainAxis:  charts.OrdinalAxisSpec(
-                      renderSpec:  charts.SmallTickRendererSpec(
-                        labelOffsetFromAxisPx: 30,
-                        labelCollisionRotation: -10,
-                        labelStyle:  charts.TextStyleSpec(
+                  Text("Declaración por mes", style: TextStyle(color: Colors.blueAccent, fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text("(vigencia: $periodoSeleccionado)", style: TextStyle(color: Colors.blueAccent, fontSize: 12, fontWeight: FontWeight.bold)),
+                  Text("en millones de pesos", style: TextStyle(color: Colors.blueAccent, fontSize: 12, fontWeight: FontWeight.bold)),
+                 
+                  Container(
+                    padding: EdgeInsets.all(0),
+                    height: 250,
+                      child: charts.BarChart(
+                      seriesList,
+                      animate: true,
+                      barRendererDecorator: charts.BarLabelDecorator<String>(
+                        insideLabelStyleSpec: charts.TextStyleSpec(
                           fontSize: 6,
-                          color: charts.MaterialPalette.black,
+                          color: charts.MaterialPalette.white
                         ),
-                        lineStyle:  charts.LineStyleSpec(
+                        outsideLabelStyleSpec: charts.TextStyleSpec(
+                          fontSize: 6,
                           color: charts.MaterialPalette.black
                         ),
-                      )
+                      ),
+                      primaryMeasureAxis:  charts.NumericAxisSpec(
+                        renderSpec:  charts.SmallTickRendererSpec(
+                          labelStyle:  charts.TextStyleSpec(
+                            fontSize: 8,
+                            color: charts.MaterialPalette.black,
+                          ),
+                          lineStyle:  charts.LineStyleSpec(
+                            color: charts.MaterialPalette.black
+                          ),
+                        ),
+                        tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 10)
+                      ),
+                      domainAxis:  charts.OrdinalAxisSpec(
+                        renderSpec:  charts.SmallTickRendererSpec(
+                          labelOffsetFromAxisPx: 30,
+                          labelCollisionRotation: -10,
+                          labelStyle:  charts.TextStyleSpec(
+                            fontSize: 6,
+                            color: charts.MaterialPalette.black,
+                          ),
+                          lineStyle:  charts.LineStyleSpec(
+                            color: charts.MaterialPalette.black
+                          ),
+                        )
+                      ),
                     ),
                   ),
                 ],
@@ -244,7 +158,33 @@ class _MunicipioPageState extends State<MunicipioPage> {
             ): Container(
               padding: EdgeInsets.only(top: 190),
               child: Center(child: CircularProgressIndicator()),
-            )  
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            !proceso2 ? Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color:  Color(0xff6c5ce7),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xff0B81E3).withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 3,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              margin: EdgeInsets.only(left: 100, right: 100),
+              padding: EdgeInsets.only(left:25, right: 10, top: 7, bottom: 7),
+              height: 40,
+              child: Row(
+                children: [
+                  Text("Ver detalles", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16)),
+                  Icon(Icons.arrow_right_alt, color: Colors.white),
+                ],
+              ),
+            ): Center(),
           ],
         ),
       ),
@@ -254,10 +194,10 @@ class _MunicipioPageState extends State<MunicipioPage> {
   @override
   void initState() {
     super.initState();
-    consultarData();
+    consultarMunicipios();
   }
 
-  consultarData() async {
+  consultarMunicipios() async {
     var response1 = await service.municipios();
     setState(() {
       municipios = response1["municipios"];
@@ -269,45 +209,32 @@ class _MunicipioPageState extends State<MunicipioPage> {
       proceso = true;
     });
     var response = await service.infoMunicipio(combosecre);
-    declaraciones = List.empty();
+    declaracionesPorPeriodo = List.empty();
     setState(() {
-      declaraciones = response["declaraciones"];
+      declaracionesPorPeriodo = response["declaraciones"];
       proceso = false;
-      cambiarSeleccion(1, declaraciones[declaraciones.length-3]["periodo"]);
+      cambiarSeleccion(declaracionesPorPeriodo[0]["periodo"]);
     });
   }
 
-  cambiarSeleccion(int index, String periodo) async {
+  cambiarSeleccion(String periodo) async {
    
     setState(() {
       proceso2 = true;
       periodoSeleccionado = periodo;
     });
 
-    switch (index) {
-      case 1:
-        setState(() {
-          selected1 = true;
-          selected2 = false;
-          selected3 = false;
-        });
-      break;
-      case 2:
-        setState(() {
-          selected1 = false;
-          selected2 = true;
-          selected3 = false;
-        });
-      break;
-      case 3:
-        setState(() {
-          selected1 = false;
-          selected2 = false;
-          selected3 = true;
-        });
-      break;
-      default:
-    }
+    setState(() {
+      for (var item in declaracionesPorPeriodo) {
+        if(item["periodo"] == periodo){
+          item["seleccionado"] = 1;
+        }else{
+          item["seleccionado"] = 0;
+        }
+      }
+    });
+    
+
     var response = await service.infoMunicipioPeriodo(combosecre, periodo);
     setState(() {
       declaracionesPorMes = response["declaraciones"];
@@ -340,7 +267,45 @@ class _MunicipioPageState extends State<MunicipioPage> {
       ];
       proceso2 = false;
     });
-    
+  }
+
+  List<Widget> itemCarousel(BuildContext context) {
+    List<Widget> widgets = [];
+    for (var item in declaracionesPorPeriodo) {
+      widgets.add( Container(
+        width: 150,
+        padding: EdgeInsets.all(0),
+        child: GestureDetector(
+          onTap: () {
+            cambiarSeleccion(item["periodo"]);
+          },
+          child:  Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: item["seleccionado"] == 0 ? Colors.white : Color(0xff0B81E3),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 6,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            margin: EdgeInsets.all(10),
+            padding: EdgeInsets.all(7),
+            child: Column(
+              children: [
+                Text(item["periodo"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: item["seleccionado"] != 0  ? Colors.white: Colors.black)),
+                SizedBox(height: 15),
+                Text('\$ ${oCcy.format(item["total"]).replaceAll(".00", "")}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10, color: item["seleccionado"] != 0  ? Colors.white: Colors.black))
+              ],
+            )
+          )
+        ),
+      ));
+    }
+    return widgets;
   }
 }
 

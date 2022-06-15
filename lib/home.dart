@@ -21,26 +21,34 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
+      extendBodyBehindAppBar : true,
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(3, 129, 117, 1),
+         elevation: 0,
+        backgroundColor: Colors.transparent,
         title: Container(
           padding: EdgeInsets.only(left: 30),
-          child: Text(widget.title),
+          child: Text(""),
         ),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
-            ),
-          )
       ),
       body: _children[_currentIndex],
       drawer: Drawer(  
         child: ListView(   
           padding: EdgeInsets.zero,  
           children: <Widget>[  
-            UserAccountsDrawerHeader(  
+            UserAccountsDrawerHeader (  
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                gradient:  const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment(0.0, 1.0),
+                  colors:  <Color>[
+                    Color.fromARGB(255, 2, 88, 80),
+                    Color.fromRGBO(3, 129, 117, 1),
+                  ],
+                  tileMode: TileMode.repeated, 
+                )
+              ),
               accountName: Text("Abhishek Mishra"),  
               accountEmail: Text("abhishekm977@gmail.com"),  
               currentAccountPicture: CircleAvatar(  

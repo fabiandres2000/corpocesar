@@ -109,5 +109,35 @@ class ServicioHttp {
     return respuesta;
   }
 
+  Future<dynamic> vigencias() async {
+    dynamic respuesta;
+    final link = Uri.parse(BaseUrl + "vigencias");
+    final response = await http.get(link);
+
+    if (response.statusCode != 200) {
+      respuesta.mensaje = "no existe esa URL";
+      respuesta.success = 0;
+    } else {
+      var json = convert.jsonDecode(response.body);
+      respuesta = json;
+    }
+    return respuesta;
+  }
+
+  Future<dynamic> municipiosVijenciasCajas(String periodo) async {
+    dynamic respuesta;
+    final link = Uri.parse(BaseUrl + "declaraciones-vigencia-vigencia?per="+periodo);
+    final response = await http.get(link);
+
+    if (response.statusCode != 200) {
+      respuesta.mensaje = "no existe esa URL";
+      respuesta.success = 0;
+    } else {
+      var json = convert.jsonDecode(response.body);
+      respuesta = json;
+    }
+    return respuesta;
+  }
+
 
 }

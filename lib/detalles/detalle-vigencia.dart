@@ -63,7 +63,10 @@ class _DetalleVigenciaPageState extends State<DetalleVigenciaPage> {
                           return itemCard(totalPorMes[index]);
                         }
                       )
-                    ): Center(),
+                    ): Container(
+                      padding: EdgeInsets.only(top: 130),
+                      child: Center(child: CircularProgressIndicator()),
+                    ) ,
                   ]
                 )
               )

@@ -1,9 +1,8 @@
-// ignore_for_file: prefer_const_constructors;, file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_collection_literals
+// ignore_for_file: prefer_const_constructors;, file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_collection_literals, prefer_final_fields
 import 'package:corpo/http/consultas.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pie_chart/pie_chart.dart';
-import 'dart:math' as math;
+import 'package:flutter_echart/flutter_echart.dart';
 
 
 class DetalleVigenciaTortaPage extends StatefulWidget {
@@ -21,8 +20,8 @@ class _DetalleVigenciaTortaPageState extends State<DetalleVigenciaTortaPage> {
   List totalPorMes = List.empty();
   bool proceso = true;
   final oCcy = NumberFormat("#,##0.00", "en_US");
-  Map<String, double> dataMap = Map();
 
+  List<EChartPieBean> _dataList = [];
   final colorList = <Color>[
     const Color(0xff5499C7),
     const Color(0xff1ABC9C),
@@ -38,11 +37,14 @@ class _DetalleVigenciaTortaPageState extends State<DetalleVigenciaTortaPage> {
     const Color(0xffF0B27A),
   ];
 
+  String mesS = "Seleccione";
+  String avaluoS = "0.00";
+  String totalS = "0.00";
+  String tarifaS = "Seleccione";
   
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    int key = 0;
     return Stack(
       children: <Widget>[
         Image.asset(
@@ -74,23 +76,66 @@ class _DetalleVigenciaTortaPageState extends State<DetalleVigenciaTortaPage> {
                     Text("( Vigencia - "+widget.periodoSeleccionado+" )", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold)),
                     SizedBox(height: size.height * 0.08),
                     Container(
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsets.only(top: 30, left: 80, right: 80),
                       height: 300,
                       width: double.infinity,
-                      child: !proceso ? PieChart(
-                        legendOptions: LegendOptions(
-                          showLegends: true,
-                          legendTextStyle: TextStyle(fontSize: 9)
-                        ),
-                        key: ValueKey(key),
-                        dataMap: dataMap,
-                        animationDuration: const Duration(milliseconds: 800),
-                        chartRadius: math.min(MediaQuery.of(context).size.width / 1.6, 300),
-                        colorList: colorList,
-                        chartValuesOptions: ChartValuesOptions(
-                          chartValueStyle: TextStyle(fontSize: 8, color: Colors.black)
-                        ),
+                      child: !proceso ? PieChatWidget(
+                        dataList: _dataList, 
+                        isLog: false,
+                        isBackground: true,
+                        isLineText: true,
+                        bgColor: Colors.white,
+                        isFrontgText: false,
+                        initSelect: 0,
+                        openType: OpenType.ANI,
+                        loopType: LoopType.DOWN_LOOP,
+                        clickCallBack: (int value) {
+                          setState(() {
+                            mesS = totalPorMes[value]["meses"];
+                            avaluoS = totalPorMes[value]["avaluo"].toString();
+                            tarifaS = totalPorMes[value]["tarifa"].toString();
+                            totalS = totalPorMes[value]["total"];
+                          });
+                        },
                       ): Center(child: CircularProgressIndicator())
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      height: 130.0,
+                      width: 280,
+                      margin: EdgeInsets.only(left: 0),
+                      padding: EdgeInsets.only(top: 15, left: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient:  LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment(0.0, 1.0),
+                          colors:  <Color>[
+                            Color.fromARGB(255, 255, 255, 255),
+                            Color.fromARGB(255, 255, 255, 255),
+                          ], // red to yellow
+                          tileMode: TileMode.repeated, 
+                        ),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(  
+                            color: Color.fromARGB(122, 87, 87, 87),
+                            blurRadius: 17.0,
+                            offset: Offset(0.0, 3.0),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Mes : "+mesS, style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
+                           SizedBox(height: 8),
+                          Text('Avaluo : \$ ${oCcy.format(double.parse(avaluoS)).replaceAll(".00", "")}', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
+                          SizedBox(height: 8),
+                          Text('Declarado : \$ ${oCcy.format(double.parse(totalS)).replaceAll(".00", "")}', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
+                          SizedBox(height: 8),
+                          Text("Tarifa : "+tarifaS, style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     )
                   ]
                 )
@@ -128,9 +173,11 @@ class _DetalleVigenciaTortaPageState extends State<DetalleVigenciaTortaPage> {
     totalPorMes = List.empty();
     setState(() {
       totalPorMes = response["declaraciones"];
-       for (var i = 0; i < totalPorMes.length; i++) {
+      for (var i = 0; i < totalPorMes.length; i++) {
         var item = totalPorMes[i];
-        dataMap.putIfAbsent(item["meses"], () => double.parse(item["total"]));
+        _dataList.add( 
+          EChartPieBean(title: item["meses"].substring(0, 3), number: int.parse(item["total"].replaceAll(".00", "")), color: colorList[i], isClick: true),
+        );
       }
       proceso = false;
     });

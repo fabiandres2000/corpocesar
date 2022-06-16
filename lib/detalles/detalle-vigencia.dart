@@ -48,14 +48,14 @@ class _DetalleVigenciaPageState extends State<DetalleVigenciaPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    !proceso ? Text(total["municipio_nombre"], style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)): Center(),
-                    !proceso ? Text('\$ ${oCcy.format(total["total"]).replaceAll(".00", "")}', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)): Center(),
-                    Text("( Vigencia - "+widget.periodoSeleccionado+" )", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-                    SizedBox(height: size.height * 0.02),
+                    !proceso ? Text(total["municipio_nombre"], style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold)): Center(),
+                    !proceso ? Text('\$ ${oCcy.format(total["total"]).replaceAll(".00", "")}', style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold)): Center(),
+                    Text("( Vigencia - "+widget.periodoSeleccionado+" )", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold)),
+                    SizedBox(height: size.height * 0.08),
                     totalPorMes.isNotEmpty ? Container(
-                      padding: EdgeInsets.only(bottom: 170),
+                      padding: EdgeInsets.only(bottom: 210),
                       color: Colors.transparent,
-                      height: size.height,
+                      height: size.height - size.height * 0.1,
                       child: ListView.builder(
                         itemCount: totalPorMes.length,
                         shrinkWrap: true,
@@ -100,8 +100,8 @@ class _DetalleVigenciaPageState extends State<DetalleVigenciaPage> {
                 tileMode: TileMode.repeated, 
               ),
               boxShadow: <BoxShadow>[
-                BoxShadow(  
-                  color: Colors.black12,
+                 BoxShadow(  
+                  color: Color.fromARGB(122, 87, 87, 87),
                   blurRadius: 17.0,
                   offset: Offset(0.0, 3.0),
                 ),
@@ -112,7 +112,7 @@ class _DetalleVigenciaPageState extends State<DetalleVigenciaPage> {
               children: [
                 Text('Avaluo : \$ ${oCcy.format(item["avaluo"]).replaceAll(".00", "")}', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
                 SizedBox(height: 10),
-                Text('Total : \$ ${oCcy.format(double.parse(item["total"])).replaceAll(".00", "")}', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
+                Text('Declarado : \$ ${oCcy.format(double.parse(item["total"])).replaceAll(".00", "")}', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
                 SizedBox(height: 10),
                 Text("Tarifa : "+item["tarifa"].toString(), style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
               ],

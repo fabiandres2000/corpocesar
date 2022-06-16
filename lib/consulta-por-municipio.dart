@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:corpo/componentes/bouncy.dart';
-import 'package:corpo/detalle-vigencia.dart';
+import 'package:corpo/detalles/detalle.dart';
 import 'package:flutter/material.dart';
 import 'package:corpo/http/consultas.dart';
 import 'package:intl/intl.dart';
@@ -184,7 +183,7 @@ class _MunicipioPageState extends State<MunicipioPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      BouncyPageRoute(widget: DetalleVigenciaPage(municipioSeleccionado, periodoSeleccionado))
+                      BouncyPageRoute(widget: DetallePage(municipioSeleccionado, periodoSeleccionado))
                     ); 
                   },
                   child: Container(

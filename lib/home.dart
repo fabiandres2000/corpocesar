@@ -60,21 +60,24 @@ class _MyHomePageState extends State<MyHomePage> {
               ),  
             ),  
             ListTile(  
-              leading: Icon(Icons.home), title: Text("Informe General"),  
+              leading: Icon(Icons.home), 
+              title: Text("Informe General"),  
               onTap: () {  
                 Navigator.pop(context);
                 onTabTapped(0);
               },  
             ),  
             ListTile(  
-              leading: Icon(Icons.settings), title: Text("Informe por municipio"),  
+              leading: Icon(Icons.location_city_rounded), 
+              title: Text("Informe por municipio"),  
               onTap: () {  
                 Navigator.pop(context);
                 onTabTapped(1);
               },  
             ),  
             ListTile(  
-              leading: Icon(Icons.contacts), title: Text("Informe por vigencia"),  
+              leading: Icon(Icons.calendar_month), 
+              title: Text("Informe por vigencia"),  
               onTap: () {  
                 Navigator.pop(context);
                 onTabTapped(2); 

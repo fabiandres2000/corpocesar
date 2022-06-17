@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors;, file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:corpo/http/consultas.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SemaforoPage extends StatefulWidget {
   const SemaforoPage({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class _SemaforoPageState extends State<SemaforoPage> {
 
   bool proceso = false;
 
+  final oCcy = NumberFormat("#,##0.00", "en_US");
 
   @override
   Widget build(BuildContext context) {
@@ -255,11 +257,11 @@ class _SemaforoPageState extends State<SemaforoPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 10),
-                Text('Municipio', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
                 Text(item["descripcion"], style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
+                SizedBox(height: 5),
+                Text("Ultima Declaración realizada el: "+item["detalle"][0]["fecha"], style: TextStyle(color: Color.fromARGB(255, 175, 3, 3), fontSize: 14, fontWeight: FontWeight.bold)),
+                SizedBox(height: 5),
+                Text('Declarado: \$ ${oCcy.format(double.parse(item["detalle"][0]["total"])).replaceAll(".00", "")}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black))
               ],
             ),
           ),

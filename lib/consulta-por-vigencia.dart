@@ -62,8 +62,7 @@ class _VigenciaPageState extends State<VigenciaPage> {
                                   .map<DropdownMenuItem<String>>((value) {
                                   return DropdownMenuItem<String>(
                                     value: value['codperiodo'].toString(),
-                                    child:
-                                        Text("Vigencia - "+value['periodo'].toString()),
+                                    child: Text("Vigencia - "+value['periodo'].toString()),
                                   );
                                 }).toList()
                               : [
@@ -186,13 +185,21 @@ class _VigenciaPageState extends State<VigenciaPage> {
               ),
             ),
             Container(
-              margin:  EdgeInsets.symmetric(vertical: 16.0),
-              alignment: FractionalOffset.centerLeft,
-              child: Image(
-                image: AssetImage("assets/1.png"),
-                height: 82.0,
-                width: 82.0,
+              decoration: BoxDecoration(
+                color: Colors.amber,
+                borderRadius: BorderRadius.circular(41),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage("assets/MUN/"+item["codmun"]+".png"),
+                ),
               ),
+              width: 82,
+              height: 82,
+              margin:  EdgeInsets.symmetric(vertical: 16.0),
             )
           ],
         )

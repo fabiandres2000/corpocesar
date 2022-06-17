@@ -139,5 +139,20 @@ class ServicioHttp {
     return respuesta;
   }
 
+  Future<dynamic> semaforo(String tipo, String f1, String f2, String periodo) async {
+    dynamic respuesta;
+    final link = Uri.parse(BaseUrl + "semaforo?tipo="+tipo+"&f1="+f1+"&f2="+f2+"&per="+periodo);
+    final response = await http.get(link);
+
+    if (response.statusCode != 200) {
+      respuesta.mensaje = "no existe esa URL";
+      respuesta.success = 0;
+    } else {
+      var json = convert.jsonDecode(response.body);
+      respuesta = json;
+    }
+    return respuesta;
+  }
+
 
 }

@@ -2,6 +2,7 @@
 import 'package:corpo/consulta-general.dart';
 import 'package:corpo/consulta-por-municipio.dart';
 import 'package:corpo/consulta-por-vigencia.dart';
+import 'package:corpo/semaforo/semaforo.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
     GeneralPage(),
     MunicipioPage(),
     VigenciaPage(),
+    SemaforoPage(),
   ];
 
   @override
@@ -81,6 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {  
                 Navigator.pop(context);
                 onTabTapped(2); 
+              },  
+            ),  
+            ListTile(  
+              leading: Icon(Icons.traffic), 
+              title: Text("Semaforo"),  
+              onTap: () {  
+                Navigator.pop(context);
+                onTabTapped(3); 
               },  
             ),  
           ],  

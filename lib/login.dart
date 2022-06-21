@@ -4,6 +4,7 @@ import 'package:corpo/constant.dart';
 import 'package:corpo/home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   
   String email = "", password = "";
+  late SharedPreferences spreferences;
 
   int tipoError = 0;
   
@@ -246,6 +248,8 @@ class _LoginPageState extends State<LoginPage> {
   iniciarSesion(){
     if(email == "sgp"){
       if(password == "123"){
+        spreferences.setString("email", email);
+        spreferences.setString("password", password);
         Navigator.push(
           context,
           BouncyPageRoute(widget: MyHomePage(title: "SGP CORPOCESAR"))
@@ -256,5 +260,15 @@ class _LoginPageState extends State<LoginPage> {
     }else{
       tipoError = 2;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    instanciarSesion();
+  }
+  
+  instanciarSesion() async {
+    spreferences = await SharedPreferences.getInstance();
   }
 }

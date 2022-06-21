@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:corpo/consulta-general.dart';
-import 'package:corpo/consulta-por-municipio.dart';
-import 'package:corpo/consulta-por-vigencia.dart';
+import 'package:corpo/consultas/consulta-general.dart';
+import 'package:corpo/consultas/consulta-por-municipio.dart';
+import 'package:corpo/consultas/consulta-por-vigencia.dart';
 import 'package:corpo/semaforo/semaforo.dart';
 import 'package:flutter/material.dart';
 

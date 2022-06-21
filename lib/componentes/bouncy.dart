@@ -9,7 +9,7 @@ class  BouncyPageRoute extends PageRouteBuilder {
     transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secanimation, Widget child){
       animation = CurvedAnimation(parent: animation, curve: Curves.ease);
       return ScaleTransition(
-        alignment: Alignment.centerRight,
+        alignment: Alignment.center,
         scale: animation,
         child: child,
       );

@@ -49,7 +49,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter_icons:
-  image_path: 'assets/icon/icon.jpg'
+  image_path: 'assets/icon/icon.png'
   android: "launcher_icon"
   ios: true
 

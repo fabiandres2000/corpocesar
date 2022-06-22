@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, import_of_legacy_library_into_null_safe, sized_box_for_whitespace
 import 'package:corpo/componentes/bouncy.dart';
 import 'package:corpo/constant.dart';
-import 'package:corpo/home.dart';
+import 'package:corpo/principal/home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';

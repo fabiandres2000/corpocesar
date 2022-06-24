@@ -32,6 +32,7 @@ class _GeneralPagePageState extends State<GeneralPage> {
           child: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
+            automaticallyImplyLeading: false,
               title: Container(
                 padding: const EdgeInsets.only(left: 0),
                 child: Center(

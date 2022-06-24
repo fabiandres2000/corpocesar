@@ -2,6 +2,7 @@
 import 'package:corpo/consultas/consulta-general.dart';
 import 'package:corpo/consultas/consulta-por-municipio.dart';
 import 'package:corpo/consultas/consulta-por-vigencia.dart';
+import 'package:corpo/mapas/geo.dart';
 import 'package:corpo/semaforo/semaforo.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
     MunicipioPage(),
     VigenciaPage(),
     SemaforoPage(),
+    MapaPage()
   ];
 
   @override
@@ -91,6 +93,14 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {  
                 Navigator.pop(context);
                 onTabTapped(3); 
+              },  
+            ),
+            ListTile(  
+              leading: Icon(Icons.map), 
+              title: Text("Ver en mapa"),  
+              onTap: () {  
+                Navigator.pop(context);
+                onTabTapped(4); 
               },  
             ),  
           ],  

@@ -3,30 +3,22 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
-import 'package:geolocator/geolocator.dart' as geo;
 import 'dart:ui' as ui;
 import 'package:blurry_modal_progress_hud/blurry_modal_progress_hud.dart';
 
 // ignore: must_be_immutable
 class MapaPage extends StatefulWidget {
- 
   MapaPage({Key? key }): super(key: key);
-
   @override
   _MapaPageState createState() => _MapaPageState();
 }
 
 class _MapaPageState extends State<MapaPage> {
-  
   String currentAddress = 'My Address';
-  late Location location;
   Completer<GoogleMapController> _controller = Completer();
   Set<Marker> markers = new Set();
   late Uint8List  customIcon;
   double alto = 0;
-
-  final geo.Geolocator geolocator = geo.Geolocator();
   
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(9.762017898962904, -73.466518845942422),
@@ -38,7 +30,6 @@ class _MapaPageState extends State<MapaPage> {
   @override
   void initState() {
     super.initState();
-    location = new Location();
     _determinePosition();
     _setIcon();
   }
@@ -139,22 +130,6 @@ class _MapaPageState extends State<MapaPage> {
 
 
   _determinePosition() async {
-    var serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return;
-      }
-    }
-
-    var _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted == PermissionStatus.denied) {
-        return;
-      }
-    }
-
     setState(() {
       loading = false;
     });

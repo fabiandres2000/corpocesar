@@ -12,8 +12,6 @@ class LoadPage extends StatefulWidget {
 }
 
 class _LoadPageState extends State<LoadPage> {
-
-  late SharedPreferences spreferences;
   
   @override
   Widget build(BuildContext context) {
@@ -44,17 +42,16 @@ class _LoadPageState extends State<LoadPage> {
     @override
   void initState() {
     super.initState();
-    instanciarSesion();
     Future.delayed(const Duration(milliseconds: 2000), ir);
   }
 
-  instanciarSesion() async {
-    spreferences = await SharedPreferences.getInstance();
-  }
 
-  ir(){
-    var email = spreferences.getString("email");
-    if(email == null){
+  ir() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var email = prefs.getString('email');
+
+    if(email == null || email == "sgp"){
       Navigator.push(
         context,
         BouncyPageRoute(widget: LoginPage())
@@ -62,7 +59,7 @@ class _LoadPageState extends State<LoadPage> {
     }else{
       Navigator.push(
         context,
-        BouncyPageRoute(widget: MyHomePage(title: "SGP CORPOCESAR"))
+        BouncyPageRoute(widget: MyHomePage())
       ); 
     }
     

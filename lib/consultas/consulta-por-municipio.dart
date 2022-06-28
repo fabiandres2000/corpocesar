@@ -9,7 +9,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 
 class MunicipioPage extends StatefulWidget {
-  const MunicipioPage({Key? key}) : super(key: key);
+  final String municipio;
+  const MunicipioPage(this.municipio, {Key? key}) : super(key: key);
   @override
   State<MunicipioPage> createState() => _MunicipioPageState();
 }
@@ -34,7 +35,7 @@ class _MunicipioPageState extends State<MunicipioPage> {
     return Stack(
       children: <Widget>[
         Image.asset(
-          "assets/background.png",
+          "assets/background2.png",
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
@@ -229,7 +230,7 @@ class _MunicipioPageState extends State<MunicipioPage> {
     var response1 = await service.municipios();
     setState(() {
       municipios = response1["municipios"];
-      municipioSeleccionado = "001";
+      municipioSeleccionado = widget.municipio != "0" ? widget.municipio :"001";
       consultarDeclaracionesInfo();
     });
   }

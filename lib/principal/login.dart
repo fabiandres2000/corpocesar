@@ -246,13 +246,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   iniciarSesion(){
-    if(email == "sgp"){
+    if(email == "admin"){
       if(password == "123"){
         spreferences.setString("email", email);
         spreferences.setString("password", password);
         Navigator.push(
           context,
-          BouncyPageRoute(widget: MyHomePage(title: "SGP CORPOCESAR"))
+          BouncyPageRoute(widget: MyHomePage())
         ); 
       }else{
         tipoError = 1;

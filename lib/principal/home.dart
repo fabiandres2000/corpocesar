@@ -7,8 +7,7 @@ import 'package:corpo/semaforo/semaforo.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -17,7 +16,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     GeneralPage(),
-    MunicipioPage(),
+    MunicipioPage("0"),
     VigenciaPage(),
     SemaforoPage(),
     MapaPage()

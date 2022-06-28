@@ -1,1 +1,1 @@
-const BaseUrl = "https://wqkbnvck.lucusvirtual.es/corpocesar/public/";
+const BaseUrl = "https://gduziwhs.lucusvirtual.es/corpocesar/public/";

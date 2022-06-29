@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_collection_literals
 
 import 'dart:math' as math;
-
 import 'package:corpo/http/consultas.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -48,7 +47,12 @@ class PieChartPageState extends State<PieChartPage> {
         chartRadius: math.min(MediaQuery.of(context).size.width / 1.6, 300),
         colorList: colorList,
         chartValuesOptions: ChartValuesOptions(
-          chartValueStyle: TextStyle(fontSize: 8, color: Colors.black)
+          chartValueStyle: TextStyle(fontSize: 8, color: Colors.black),
+          showChartValueBackground: true,
+          showChartValues: true,
+          showChartValuesInPercentage: true,
+          showChartValuesOutside: false,
+          decimalPlaces: 1,
         ),
       ): Center(child: CircularProgressIndicator())
     );

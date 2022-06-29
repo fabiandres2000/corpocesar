@@ -57,7 +57,7 @@ class _SemaforoPageState extends State<SemaforoPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Text("Semáforo de Declaración", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold)),
+                    Text("Declaraciones pendientes", style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold)),
                     SizedBox(height: 10),
                     Padding(
                       padding:  EdgeInsets.symmetric(horizontal: 20),

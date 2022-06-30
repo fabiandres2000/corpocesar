@@ -31,8 +31,8 @@ class _LoadPageState extends State<LoadPage> {
           alignment: Alignment.center,
           child: Image.asset(
             "assets/app_logo.gif",
-            width: 128,
-            height: 128,
+            width: 500,
+            height: 800,
           )
         ),
       )
@@ -42,7 +42,7 @@ class _LoadPageState extends State<LoadPage> {
     @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 2000), ir);
+    Future.delayed(const Duration(milliseconds: 6000), ir);
   }
 
 

@@ -58,8 +58,8 @@ class _MapaPageState extends State<MapaPage> {
       blurEffectIntensity: 4,
       progressIndicator: Image.asset(
         'assets/app_logo.gif',
-        width: 200,
-        height: 100,
+        width: 500,
+        height: 800,
       ),
       dismissible: false,
       opacity: 0.6,
@@ -203,7 +203,7 @@ class _MapaPageState extends State<MapaPage> {
     var response1 =  await service.ubic();
     setState(() {
       municipios = response1["declaraciones"];
-      _addMarkers();
+      Future.delayed(const Duration(milliseconds: 5000), _addMarkers);
     });
   }
 
